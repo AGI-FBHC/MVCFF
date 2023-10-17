@@ -1,0 +1,15 @@
+UniProtKB 2021_03 results
+homo sapiens 共计 26570
+去除非 HUMAN 蛋白质及 无效 氨基酸字符序列。剩余： 20361条序列
+去除空白 nan 实验注释样本 。剩余：18674 (Q156A1在swissprot数据库无比对结果)   = 18673
+
+train : test = 8 (14938) : 2 (3735)
+datasets:HOMO 	 samples:14938
+The columns:Index(['proteins', 'sequences', 'exp_annotations', 'prop_annotations'], dtype='object')
+BP(100): 1164 	 MF(25): 556 	 CC(25): 442 	 ALL:2162
+Current names:BP
+num_classes:1164 	 samples:13244
+Current names:MF
+num_classes:556 	 samples:12367
+Current names:CC
+num_classes:442 	 samples:14494

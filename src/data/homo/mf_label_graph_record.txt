@@ -1,0 +1,4 @@
+high_confidence_alpha:0.5	conditional_alpha:0.6	knowledge_alpha:0.5	final_edges:4037
+high_confidence_alpha:0.3	conditional_alpha:0.9	knowledge_alpha:0.5	final_edges:3099
+high_confidence_alpha:0.3	conditional_alpha:0.9	knowledge_alpha:0.5	final_edges:3099
+high_confidence_alpha:0.5	conditional_alpha:0.9	knowledge_alpha:0.5	final_edges:3088
