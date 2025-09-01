@@ -46,7 +46,6 @@ feats_dir       Directory of protein feature files
 model_dir       Directory to save trained model, auto-generated if not provided
 out_file        File path to save prediction results
 ```
-
 ### Test  
 when phase is "test", The routine will load the Model file stored in the output directory.
 Start testing
