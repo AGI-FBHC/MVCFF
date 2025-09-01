@@ -55,7 +55,7 @@ python train.py --phase test --datasets cafa3 --namespace mf --net_type MVFFNet 
 ## Case  
 &nbsp;&nbsp;&nbsp;&nbsp;We randomly selected an example to illustrate the practical performance differences between our proposed method MVCFF+ and baseline methods. 
 The figure below shows the surface structure of the selected example.
-![case](doc/figure.png)
+![case](doc/figure.svg)
 &nbsp;&nbsp;&nbsp;&nbsp;The annotation term structure of the protein FA60A_MOUSE, based on experimental annotations (GO:0008284, GO:0045596) and propagated using the TPR rules, 
 is shown, along with predictions from six different methods.  
 &nbsp;&nbsp;&nbsp;&nbsp;Figure 1 illustrates the true term set obtained by propagating the experimental annotation GO:0045596 using the TPR rules, 
