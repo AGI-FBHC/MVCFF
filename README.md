@@ -21,8 +21,7 @@ tqdm                      4.65.0
 ## Dataset
 The dataset used in the experiments are provided as follows:  
 cafa3 dataset is hosted in https://zenodo.org/records/7409660  
-homo dataset can be found in https://www.uniprot.org/proteomes/UP000005640  
-
+homo dataset can be found in https://www.uniprot.org/proteomes/UP000005640
 ## Train and Test  
 ### Train  
 Navigate to the project source directory  
