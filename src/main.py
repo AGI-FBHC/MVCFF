@@ -31,7 +31,7 @@ def pser_args():
     parser.add_argument('--net_type', dest='net_type', default="MVFFNet") #  DMPF / MLP /DeepGOCNN / DeepGOA /
     parser.add_argument('--feats_type', dest='feats_type', default="O_B_P") # bert onehot pssm word2vec / B_O_P_W
     parser.add_argument('--namespace_dir', dest='namespace_dir', default="data/")
-    parser.add_argument('--feats_dir', dest='feats_dir', default='E:/Datasets/cafa_feats')  # cafa_feats / homo_feats
+    parser.add_argument('--feats_dir', dest='feats_dir', default='case_study/')  # cafa_feats / homo_feats
     parser.add_argument('--model_dir', dest='model_dir')
     parser.add_argument('--out_file', dest='out_file')
     return parser.parse_args()
