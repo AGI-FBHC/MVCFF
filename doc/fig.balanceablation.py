@@ -1,21 +1,21 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# 设置全局字体和DPI
-plt.rcParams['font.family'] = 'Arial'
-plt.rcParams['font.size'] = 10
-plt.rcParams['figure.dpi'] = 300
+import matplotlib.font_manager as fm
+fm.fontManager.addfont('doc/font/times/times.ttf')
+plt.rc('font',family='Times New Roman')
+plt.rcParams.update({'font.size': 18})
 
 # 创建2行2列的子图布局，但我们将使用第一行的两个位置和第二行的第一个位置
-fig, axes = plt.subplots(2, 2, figsize=(8, 8))
+fig, axes = plt.subplots(1, 3, figsize=(12, 4))
 
 # 重新排列axes，使第三个图占据第二行的整个宽度
-ax1 = axes[0, 0]  # 第一行第一列 - Fmax
-ax2 = axes[0, 1]  # 第一行第二列 - Smin
-ax3 = axes[1, 0]  # 第二行第一列 - AUPR
+ax1 = axes[0]  # 第一行第一列 - Fmax
+ax2 = axes[1]  # 第一行第二列 - Smin
+ax3 = axes[2]  # 第二行第一列 - AUPR
 
-# 隐藏第二行第二列的空子图
-axes[1, 1].set_visible(False)
+# # 隐藏第二行第二列的空子图
+# axes[1, 1].set_visible(False)
 
 # Fmax 数据
 x_fmax = np.array([0, 0.1, 0.2, 0.3,
@@ -91,47 +91,57 @@ aupr_y_min, aupr_y_max = 0.23, 0.67
 ax1.plot(x_fmax, mfo_fmax, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
 ax1.plot(x_fmax, bpo_fmax, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
 ax1.plot(x_fmax, cco_fmax, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
-ax1.set_xlim(-0.05, 1.05)  # x轴稍微扩展
-ax1.set_ylim(fmax_y_min, fmax_y_max)  # y轴扩展
-ax1.set_ylabel('Scores', fontweight='bold')
+# ax1.set_xlim(-0.05, 1.05)  # x轴稍微扩展
+# ax1.set_ylim(fmax_y_min, fmax_y_max)  # y轴扩展
+ax1.set_xlabel('a', fontweight='bold')
+ax1.set_ylabel('Fmax', fontweight='bold')
+ax1.set_xticks(np.arange(0, 1.1, 0.2))
 # 将标题放在子图上方
-ax1.text(0.5, 1.05, 'Fmax', transform=ax1.transAxes, fontsize=12, fontweight='bold', ha='center')
-ax1.text(0.02, 0.95, 'A', transform=ax1.transAxes, fontsize=14, fontweight='bold', va='top')
+# ax1.text(0.5, 1.05, 'Fmax', transform=ax1.transAxes, fontsize=12, fontweight='bold', ha='center')
+# ax1.text(0.02, 0.95, 'A', transform=ax1.transAxes, fontsize=14, fontweight='bold', va='top')
 ax1.grid(True, linestyle='--', alpha=0.7)
-ax1.legend(loc='lower right', frameon=True, fancybox=True, shadow=True)
+# ax1.legend(loc='lower right', frameon=True, fancybox=True, shadow=True)
 
 # 绘制第二个子图 - Smin
 ax2.plot(x_smin, mfo_smin, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
 ax2.plot(x_smin, bpo_smin, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
 ax2.plot(x_smin, cco_smin, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
-ax2.set_xlim(-0.05, 1.05)  # x轴稍微扩展
-ax2.set_ylim(smin_y_min, smin_y_max)  # y轴扩展
-ax2.set_ylabel('Scores', fontweight='bold')
+# ax2.set_xlim(-0.05, 1.05)  # x轴稍微扩展
+# ax2.set_ylim(smin_y_min, smin_y_max)  # y轴扩展
+ax2.set_xlabel('b', fontweight='bold')
+ax2.set_ylabel('Smin', fontweight='bold')
+ax2.set_xticks(np.arange(0, 1.1, 0.2))
 # 将标题放在子图上方
-ax2.text(0.5, 1.05, 'Smin', transform=ax2.transAxes, fontsize=12, fontweight='bold', ha='center')
-ax2.text(0.02, 0.95, 'B', transform=ax2.transAxes, fontsize=14, fontweight='bold', va='top')
+# ax2.text(0.5, 1.05, 'Smin', transform=ax2.transAxes, fontsize=12, fontweight='bold', ha='center')
+# ax2.text(0.02, 0.95, 'B', transform=ax2.transAxes, fontsize=14, fontweight='bold', va='top')
 ax2.grid(True, linestyle='--', alpha=0.7)
 # 将图例放在中间且不遮挡线条
-ax2.legend(loc='center', bbox_to_anchor=(0.5, 0.5), frameon=True, fancybox=True, shadow=True)
+# ax2.legend(loc='center', bbox_to_anchor=(0.5, 0.5), frameon=True, fancybox=True, shadow=True)
 
 # 绘制第三个子图 - AUPR
 ax3.plot(x_aupr, mfo_aupr, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
 ax3.plot(x_aupr, bpo_aupr, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
 ax3.plot(x_aupr, cco_aupr, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
-ax3.set_xlim(-0.05, 1.05)  # x轴稍微扩展
-ax3.set_ylim(aupr_y_min, aupr_y_max)  # y轴扩展
-ax3.set_ylabel('Scores', fontweight='bold')
+# ax3.set_xlim(-0.05, 1.05)  # x轴稍微扩展
+# ax3.set_ylim(aupr_y_min, aupr_y_max)  # y轴扩展
+ax3.set_xlabel('c', fontweight='bold')
+ax3.set_ylabel('AUPR', fontweight='bold')
+ax3.set_xticks(np.arange(0, 1.1, 0.2))
 # 将标题放在子图上方
-ax3.text(0.5, 1.05, 'AUPR', transform=ax3.transAxes, fontsize=12, fontweight='bold', ha='center')
-ax3.text(0.02, 0.95, 'C', transform=ax3.transAxes, fontsize=14, fontweight='bold', va='top')
-ax3.grid(True, linestyle='--', alpha=0.7)
-ax3.legend(loc='lower right', frameon=True, fancybox=True, shadow=True)
+# ax3.text(0.5, 1.05, 'AUPR', transform=ax3.transAxes, fontsize=12, fontweight='bold', ha='center')
+# ax3.text(0.02, 0.95, 'C', transform=ax3.transAxes, fontsize=14, fontweight='bold', va='top')
+ax3.grid()
+# ax3.legend(loc='lower right', frameon=True, fancybox=True, shadow=True)
+
+# 图例共用
+lines, labels = ax3.get_legend_handles_labels()
+fig.legend(lines, labels, loc = 'upper center', ncols=3, bbox_to_anchor=(0.5,1.1)) # 图例的位置，bbox_to_anchor=(0.5, 0.92),
 
 # 调整布局，确保子图之间有适当的间距
 plt.tight_layout()
 
 # 保存高DPI图像
-plt.savefig('high_dpi_plot.png', dpi=600, bbox_inches='tight')
-plt.savefig('high_dpi_plot.pdf', bbox_inches='tight')  # 矢量图版本
+plt.savefig('doc/fig.balanceablation.jpg', dpi=600, bbox_inches='tight')
+plt.savefig('doc/fig.balanceablation.svg', bbox_inches='tight')  # 矢量图版本
 
 plt.show()
