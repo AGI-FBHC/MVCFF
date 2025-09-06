@@ -63,3 +63,4 @@ while Figure 2 shows the true term set obtained by propagating GO:0008284.
 ![11](doc/11.png)
 ![22](doc/22.png)  
 
+![22](doc/attentionmap.svg) 
