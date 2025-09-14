@@ -1,58 +1,132 @@
-import svgwrite
-import cairosvg
-import base64
+import os
+import torch
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from networks import MVFF
 
-views = [
-    "surface.png", "sticks.png", "mesh.png", "cartoon.png",
-    "surface_0.png", "surface_90.png", "surface_180.png", "surface_270.png"
-]
+# =========================== # 配置 # ===========================
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+input_dims = [21, 14, 21, 1280]
+hidden_dim = 128
+num_classes = 1
+model = MVFF(device=device, input_dims=input_dims, num_classes=num_classes, hidden_dim=hidden_dim)
+model.to(device)
+model.eval()
 
-output_svg = "combined_figure.svg"
-output_png = "combined_figure.png"
+# 数据路径
+base_dir = "E:/Datasets/cafa3"
+feat_dirs = { "onehot": os.path.join(base_dir, "onehot"),
+              "opf": os.path.join(base_dir, "opf"),
+              "pssm": os.path.join(base_dir, "pssm"),
+              "esm": os.path.join(base_dir, "esm"), }
+save_dir = os.path.join(base_dir, "attn_results")
+os.makedirs(save_dir, exist_ok=True)
 
-canvas_width, canvas_height = 1200, 700
-top_y, bottom_y = 20, 330
-img_width, img_height = 250, 200
-img_width_bottom, img_height_bottom = 250, 250
-x_positions = [60, 340, 620, 900]
+# =========================== # 工具函数 # ===========================
+def load_npz_feat(path):
+    data = np.load(path, allow_pickle=True)
+    if isinstance(data, np.lib.npyio.NpzFile):
+        arr = data[list(data.keys())[0]]
+    else:
+        arr = data
+    if isinstance(arr, np.ndarray) and arr.dtype == object:
+        try:
+            arr = arr.item()
+        except Exception:
+            pass
+        return arr
 
-dwg = svgwrite.Drawing(output_svg, size=(canvas_width, canvas_height))
-# 背景填充白色
-dwg.add(dwg.rect(insert=(0, 0), size=("100%", "100%"), fill="white"))
+def fix_channels(x, expected_c):
+    if x.shape[1] < expected_c:
+        pad = torch.zeros((x.shape[0], expected_c - x.shape[1], x.shape[2]), device=x.device)
+        x = torch.cat([x, pad], dim=1)
+    return x
 
-dwg.defs.add(dwg.style("""
-.label { font-family: Arial; font-size:20px; fill:black; }
-.sub { font-family: Arial; font-size:18px; font-weight:bold; fill:black; }
-.angle { font-family: Arial; font-size:12px; fill:#4aa3d8; }
-.dashedbox { fill:none; stroke:#2b2b2b; stroke-width:2; stroke-dasharray:6 6;
-             rx:18; ry:18; stroke-linecap:round; stroke-linejoin:round; }
-"""))
+def process_single_protein(protein_id):
+    x_onehot = torch.tensor(load_npz_feat(os.path.join(feat_dirs["onehot"], f"{protein_id}.npz")),
+                            dtype=torch.float32).unsqueeze(0).to(device)
+    x_opf = torch.tensor(load_npz_feat(os.path.join(feat_dirs["opf"], f"{protein_id}.npz")),
+                         dtype=torch.float32).unsqueeze(0).to(device)
+    x_pssm = torch.tensor(load_npz_feat(os.path.join(feat_dirs["pssm"], f"{protein_id}.npz")),
+                          dtype=torch.float32).unsqueeze(0).to(device)
+    x_esm = torch.tensor(load_npz_feat(os.path.join(feat_dirs["esm"], f"{protein_id}.npz")),
+                         dtype=torch.float32).unsqueeze(0).to(device)
 
-def embed_png(path):
-    with open(path, "rb") as f:
-        data = f.read()
-    return "data:image/png;base64," + base64.b64encode(data).decode()
+    x_onehot = fix_channels(x_onehot.permute(0, 2, 1), 21)
+    x_opf = fix_channels(x_opf.permute(0, 2, 1), 14)
+    x_pssm = fix_channels(x_pssm.permute(0, 2, 1), 21)
+    x_esm = fix_channels(x_esm.permute(0, 2, 1), 1280)
 
-# 绘制大框
-dwg.add(dwg.rect(insert=(30, top_y), size=(1140, 280), class_="dashedbox"))
-dwg.add(dwg.text("a", insert=(40, 40), class_="sub"))
-dwg.add(dwg.rect(insert=(30, bottom_y), size=(1140, 320), class_="dashedbox"))
-dwg.add(dwg.text("b", insert=(40, bottom_y+20), class_="sub"))
+    data = {"x": x_onehot, "x1": x_opf, "x2": x_pssm, "x3": x_esm}
 
-# 顶部四张图
-labels = ["Surface", "Stick", "Mesh", "Cartoon"]
-for i in range(4):
-    dwg.add(dwg.image(embed_png(views[i]), insert=(x_positions[i], 60), size=(img_width, img_height)))
-    dwg.add(dwg.text(labels[i], insert=(x_positions[i] + img_width/2, 55),
-                     class_="label", text_anchor="middle"))
+    with torch.no_grad():
+        enc_outs = []
+        for i, enc_layer in enumerate(model.sub_nets):
+            conv_attn = enc_layer(data[f"x{i}" if i > 0 else "x"])
+            enc_outs.append(conv_attn)
 
-# 底部四张图
-angles = ["0°", "90°", "180°", "270°"]
-for i in range(4):
-    dwg.add(dwg.image(embed_png(views[i+4]), insert=(x_positions[i], 380), size=(img_width_bottom, img_height_bottom)))
-    dwg.add(dwg.text(angles[i], insert=(x_positions[i] + img_width_bottom/2, 370),
-                     class_="angle", text_anchor="middle"))
+        common_feat_ini = model.common_project_1(torch.cat(enc_outs, dim=1))
+        common_feat_tep = model.common_project_2(common_feat_ini)
+        common_feat = common_feat_tep * model.cross_linear(common_feat_tep) + common_feat_ini
 
-dwg.save()
-cairosvg.svg2png(url=output_svg, write_to=output_png)
+        attn_list = []
+        for co_layer, sub_x in zip(model.co_layers, enc_outs):
+            enc_attn = co_layer(common_feat, sub_x) # [B, hidden_dim, L]
+            attn_list.append(enc_attn.mean(dim=2)) # 对长度维取平均，得到 [B, hidden_dim]
+            attn_feat = torch.cat(attn_list, dim=1).squeeze(0).cpu().numpy() # [n_views*hidden_dim]
 
+    return attn_feat
+
+# =========================== # 主逻辑：统计 & 作图 # ===========================
+if __name__ == "__main__":
+    data = pd.read_pickle("data/cafa3/test_data.pkl")
+
+    if isinstance(data, pd.DataFrame) and "proteins" in data.columns and "sequences" in data.columns:
+        protein_ids = data["proteins"].tolist() # 直接从 sequences 列计算长度
+        seq_lens = data["sequences"].apply(len).tolist()
+    elif isinstance(data, dict):
+        protein_ids = list(data.keys())
+        seq_lens = [len(v[0]) for v in data.values()] # v[0] 是序列
+    else:
+        raise ValueError("❌ 无法解析 test_data.pkl，请检查文件格式！")
+
+
+    # 分箱
+    bins = [0, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 1250, 1500, 5000]
+    bin_labels = ["50", "100", "150", "200", "250", "300", "400", "500", "750", "1000", "1250", "1500+"]
+
+    attn_matrix = np.zeros((len(bin_labels), 4)) # [length_bin, n_views]
+    counts = np.zeros(len(bin_labels))
+
+    for idx, (protein_id, seq_len) in enumerate(zip(protein_ids, seq_lens)):
+        try:
+            print(f"[{idx+1}/{len(protein_ids)}] Processing {protein_id}...")
+            attn_feat = process_single_protein(protein_id)
+            # 分成四个视角
+            n_views = 4
+            view_attn = np.split(attn_feat, n_views)
+            view_mean = [v.mean() for v in view_attn]
+
+            bin_idx = np.digitize(seq_len, bins) - 1
+            if 0 <= bin_idx < len(bin_labels):
+                attn_matrix[bin_idx] += view_mean
+                counts[bin_idx] += 1
+
+        except Exception as e:
+            print(f"❌ Failed: {protein_id} ({e})")
+
+    attn_matrix = attn_matrix / np.maximum(counts[:, None], 1)
+
+    # 作图
+    plt.figure(figsize=(6, 5))
+    df = pd.DataFrame(attn_matrix, index=bin_labels, columns=["OneHot","OPF","PSSM","ESM"])
+    sns.heatmap(df, cmap="YlGnBu", annot=False, cbar_kws={'label': 'Attention Weight'})
+    plt.xlabel("Feature View")
+    plt.ylabel("Sample Categories (Protein Length)")
+    plt.title("Attention Weights Across Feature Views")
+    plt.tight_layout()
+    plt.savefig(os.path.join(save_dir, "attention_heatmap.png"), dpi=600)
+    plt.show()
+    print("✅ 注意力热力图已保存到:", os.path.join(save_dir, "attention_heatmap.svg"))
