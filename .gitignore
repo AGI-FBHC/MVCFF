@@ -162,7 +162,7 @@ cython_debug/
 output/
 .vscode/
 *.code-workspace
-data/
+data
 src/data/
 src/models/
 src/case_study/
