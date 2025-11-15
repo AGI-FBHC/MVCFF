@@ -7,15 +7,21 @@ plt.rc('font',family='Times New Roman')
 plt.rcParams.update({'font.size': 18})
 
 # 创建2行2列的子图布局，但我们将使用第一行的两个位置和第二行的第一个位置
-fig, axes = plt.subplots(1, 3, figsize=(12, 4))
+fig, axes = plt.subplots(3, 3, figsize=(12, 12))
 
 # 重新排列axes，使第三个图占据第二行的整个宽度
-ax1 = axes[0]  # 第一行第一列 - Fmax
-ax2 = axes[1]  # 第一行第二列 - Smin
-ax3 = axes[2]  # 第二行第一列 - AUPR
+ax1 = axes[0,0]  # 第一行第一列 - Fmax
+ax2 = axes[0,1]  # 第一行第二列 - Smin
+ax3 = axes[0,2]  # 第一行第三列 - AUPR
 
-# # 隐藏第二行第二列的空子图
-# axes[1, 1].set_visible(False)
+ax4 = axes[1,0]  # 第二行第一列 - Fmax
+ax5 = axes[1,1]  # 第二行第二列 - Smin
+ax6 = axes[1,2]  # 第二行第三列 - AUPR
+
+ax7 = axes[2,0]  # 第三行第一列 - Fmax
+ax8 = axes[2,1]  # 第三行第二列 - Smin
+ax9 = axes[2,2]  # 第三行第三列 - AUPR
+
 
 # Fmax 数据
 x_fmax = np.array([0, 0.1, 0.2, 0.3,
@@ -89,59 +95,92 @@ aupr_y_min, aupr_y_max = 0.23, 0.67
 
 # 绘制第一个子图 - Fmax
 ax1.plot(x_fmax, mfo_fmax, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
-ax1.plot(x_fmax, bpo_fmax, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
-ax1.plot(x_fmax, cco_fmax, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
-# ax1.set_xlim(-0.05, 1.05)  # x轴稍微扩展
-# ax1.set_ylim(fmax_y_min, fmax_y_max)  # y轴扩展
-ax1.set_xlabel('a', fontweight='bold')
-ax1.set_ylabel('Fmax', fontweight='bold')
+ax1.set_xlabel("(a)", fontweight='bold',fontsize=18)
+ax1.set_ylabel('Fmax', fontweight='bold',fontsize=18)
 ax1.set_xticks(np.arange(0, 1.1, 0.2))
-# 将标题放在子图上方
-# ax1.text(0.5, 1.05, 'Fmax', transform=ax1.transAxes, fontsize=12, fontweight='bold', ha='center')
-# ax1.text(0.02, 0.95, 'A', transform=ax1.transAxes, fontsize=14, fontweight='bold', va='top')
-ax1.grid(True, linestyle='--', alpha=0.7)
-# ax1.legend(loc='lower right', frameon=True, fancybox=True, shadow=True)
+ax1.set_ylim(fmax_y_min, fmax_y_max)
+ax1.set_title('MFO', fontweight='bold')
+ax1.scatter([x_fmax[7]], [mfo_fmax[7]], color="#ff0000", marker='o',s=100,zorder=10)
+ax1.text(x_fmax[7], mfo_fmax[7]+0.01, r' $\alpha$='+f'{x_fmax[7]:.1f}', fontsize=18, ha='center')
+
+
+ax2.plot(x_fmax, bpo_fmax, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
+ax2.set_xlabel("(b)", fontweight='bold')
+ax2.set_ylabel('Fmax', fontweight='bold')
+ax2.set_xticks(np.arange(0, 1.1, 0.2))
+ax2.set_ylim(fmax_y_min, fmax_y_max)
+ax2.set_title('BPO', fontweight='bold')
+ax2.scatter([x_fmax[7]], [bpo_fmax[7]], color="#ff0000", marker='o',s=100,zorder=10)
+ax2.text(x_fmax[7], bpo_fmax[7]+0.01, r' $\alpha$='+f'{x_fmax[7]:.1f}', fontsize=18, ha='center')
+
+ax3.plot(x_fmax, cco_fmax, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
+ax3.set_xlabel("(c)", fontweight='bold')
+ax3.set_ylabel('Fmax', fontweight='bold')
+ax3.set_xticks(np.arange(0, 1.1, 0.2))
+ax3.set_ylim(0.45, 0.75)
+ax3.set_title('CCO', fontweight='bold')
+ax3.scatter([x_fmax[9]], [cco_fmax[9]], color="#ff0000", marker='o',s=100,zorder=10)
+ax3.text(x_fmax[9], cco_fmax[9]+0.01, r' $\alpha$='+f'{x_fmax[9]:.1f}', fontsize=18, ha='center')
 
 # 绘制第二个子图 - Smin
-ax2.plot(x_smin, mfo_smin, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
-ax2.plot(x_smin, bpo_smin, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
-ax2.plot(x_smin, cco_smin, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
-# ax2.set_xlim(-0.05, 1.05)  # x轴稍微扩展
-# ax2.set_ylim(smin_y_min, smin_y_max)  # y轴扩展
-ax2.set_xlabel('b', fontweight='bold')
-ax2.set_ylabel('Smin', fontweight='bold')
-ax2.set_xticks(np.arange(0, 1.1, 0.2))
-# 将标题放在子图上方
-# ax2.text(0.5, 1.05, 'Smin', transform=ax2.transAxes, fontsize=12, fontweight='bold', ha='center')
-# ax2.text(0.02, 0.95, 'B', transform=ax2.transAxes, fontsize=14, fontweight='bold', va='top')
-ax2.grid(True, linestyle='--', alpha=0.7)
-# 将图例放在中间且不遮挡线条
-# ax2.legend(loc='center', bbox_to_anchor=(0.5, 0.5), frameon=True, fancybox=True, shadow=True)
+ax4.plot(x_smin, mfo_smin, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
+ax4.set_xlabel("(d)", fontweight='bold')
+ax4.set_ylabel('Smin', fontweight='bold')
+ax4.set_xticks(np.arange(0, 1.1, 0.2))
+ax4.set_ylim(smin_y_min, 12)
+ax4.set_title('MFO', fontweight='bold')
+ax4.scatter([x_smin[6]], [mfo_smin[6]], color="#ff0000", marker='o',s=100,zorder=10)
+ax4.text(x_smin[6], mfo_smin[6]-0.7, r' $\alpha$='+f'{x_smin[6]:.1f}', fontsize=18, ha='center')
+
+ax5.plot(x_smin, bpo_smin, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
+ax5.set_xlabel("(e)", fontweight='bold')
+ax5.set_ylabel('Smin', fontweight='bold')
+ax5.set_xticks(np.arange(0, 1.1, 0.2))
+ax5.set_ylim(20, 25)
+ax5.set_title('BPO', fontweight='bold')
+ax5.scatter([x_smin[10]], [bpo_smin[10]], color="#ff0000", marker='o',s=100,zorder=10)
+ax5.text(x_smin[10]-0.1, bpo_smin[10]-0.6 , r' $\alpha$='+f'{x_smin[10]:.1f}', fontsize=18, ha='center')
+
+ax6.plot(x_smin, cco_smin, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
+ax6.set_xlabel("(f)", fontweight='bold')
+ax6.set_ylabel('Smin', fontweight='bold')
+ax6.set_xticks(np.arange(0, 1.1, 0.2))
+ax6.set_ylim(7, 9)
+ax6.set_title('CCO', fontweight='bold')
+ax6.scatter([x_smin[9]], [cco_smin[9]], color="#ff0000", marker='o',s=100,zorder=10)
+ax6.text(x_smin[9], cco_smin[9]-0.2, r' $\alpha$='+f'{x_smin[9]:.1f}', fontsize=18, ha='center')
 
 # 绘制第三个子图 - AUPR
-ax3.plot(x_aupr, mfo_aupr, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
-ax3.plot(x_aupr, bpo_aupr, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
-ax3.plot(x_aupr, cco_aupr, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
-# ax3.set_xlim(-0.05, 1.05)  # x轴稍微扩展
-# ax3.set_ylim(aupr_y_min, aupr_y_max)  # y轴扩展
-ax3.set_xlabel('c', fontweight='bold')
-ax3.set_ylabel('AUPR', fontweight='bold')
-ax3.set_xticks(np.arange(0, 1.1, 0.2))
-# 将标题放在子图上方
-# ax3.text(0.5, 1.05, 'AUPR', transform=ax3.transAxes, fontsize=12, fontweight='bold', ha='center')
-# ax3.text(0.02, 0.95, 'C', transform=ax3.transAxes, fontsize=14, fontweight='bold', va='top')
-ax3.grid()
-# ax3.legend(loc='lower right', frameon=True, fancybox=True, shadow=True)
+ax7.plot(x_aupr, mfo_aupr, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
+ax7.set_xlabel("(g)", fontweight='bold')
+ax7.set_ylabel('AUPR', fontweight='bold')
+ax7.set_xticks(np.arange(0, 1.1, 0.2))
+ax7.set_ylim(aupr_y_min, aupr_y_max)
+ax7.set_title('MFO', fontweight='bold')
+ax7.scatter([x_aupr[7]], [mfo_aupr[7]], color="#ff0000", marker='o',s=100,zorder=10)
+ax7.text(x_aupr[7], mfo_aupr[7]+0.01, r' $\alpha$='+f'{x_aupr[7]:.1f}', fontsize=18, ha='center')
 
-# 图例共用
-lines, labels = ax3.get_legend_handles_labels()
-fig.legend(lines, labels, loc = 'upper center', ncols=3, bbox_to_anchor=(0.5,1.1)) # 图例的位置，bbox_to_anchor=(0.5, 0.92),
+ax8.plot(x_aupr, bpo_aupr, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
+ax8.set_xlabel("(h)", fontweight='bold')
+ax8.set_ylabel('AUPR', fontweight='bold')
+ax8.set_xticks(np.arange(0, 1.1, 0.2))
+ax8.set_ylim(aupr_y_min, aupr_y_max)
+ax8.set_title('BPO', fontweight='bold')
+ax8.scatter([x_aupr[7]], [bpo_aupr[7]], color="#ff0000", marker='o',s=100,zorder=10)
+ax8.text(x_aupr[7], bpo_aupr[7]+0.01, r' $\alpha$='+f'{x_aupr[7]:.1f}', fontsize=18, ha='center')
+
+ax9.plot(x_aupr, cco_aupr, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
+ax9.set_xlabel("(i)", fontweight='bold')
+ax9.set_ylabel('AUPR', fontweight='bold')
+ax9.set_xticks(np.arange(0, 1.1, 0.2))
+ax9.set_ylim(aupr_y_min, 0.8)
+ax9.set_title('CCO', fontweight='bold')
+ax9.scatter([x_aupr[9]], [cco_aupr[9]], color="#ff0000", marker='o',s=100,zorder=10)  
+ax9.text(x_aupr[9], cco_aupr[9]+0.03, r' $\alpha$='+f'{x_aupr[9]:.1f}', fontsize=18, ha='center')
 
 # 调整布局，确保子图之间有适当的间距
 plt.tight_layout()
-
-# 保存高DPI图像
-plt.savefig('doc/fig.balanceablation.jpg', dpi=600, bbox_inches='tight')
-plt.savefig('doc/fig.balanceablation.svg', bbox_inches='tight')  # 矢量图版本
+plt.savefig('doc/fig.balanceablation.jpg', dpi=600, bbox_inches='tight',transparent=True)  # 高DPI版本
+plt.savefig('doc/fig.balanceablation.svg', bbox_inches='tight', transparent=True)  # 矢量图版本
 
 plt.show()

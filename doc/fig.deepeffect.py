@@ -169,9 +169,9 @@ plt.tight_layout()
 
 # 保存图像
 # plt.savefig('fig.performance_comparison.png', dpi=600, bbox_inches='tight')
-plt.savefig('doc/fig.deepeffect.jpg', dpi=600, bbox_inches='tight')
+plt.savefig('doc/fig.deepeffect.jpg', dpi=600, bbox_inches='tight', transparent=True)
 # plt.savefig('fig.performance_comparison.pdf', bbox_inches='tight')
-plt.savefig('doc/fig.deepeffect.svg', bbox_inches='tight')
+plt.savefig('doc/fig.deepeffect.svg', bbox_inches='tight', transparent=True)
 
 # 显示图形
 plt.show()
