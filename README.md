@@ -77,7 +77,9 @@ python train.py --phase train --datasets cafa3 --namespace mf --net_type MVFFNet
 output:
 
 ``` shell
-
+model_test.pth.tar
+prediction.pkl
+result.txt
 ```
 
 ## Test
@@ -91,5 +93,6 @@ python train.py --phase test --datasets cafa3 --namespace mf --net_type MVFFNet 
 output:
 
 ``` shell
-
+prediction.pkl
+result.txt
 ```
