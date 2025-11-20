@@ -71,7 +71,7 @@ wget https://biofunctionprediction.org/cafa-targets/CAFA3_training_data.tgz
 ``` python
 check_dir(base_path+"output/csv/")
 check_dir(base_path+"output/log/")
-
+python train.py --phase train --datasets cafa3 --namespace mf --net_type MVFFNet --feats_type O_B_P --batch_size 8 --num_epochs 12
 ```
 
 output:
