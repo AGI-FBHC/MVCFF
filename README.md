@@ -85,7 +85,7 @@ output:
 ``` python
 check_dir(base_path+"output/csv/")
 check_dir(base_path+"output/log/")
-
+python train.py --phase test --datasets cafa3 --namespace mf --net_type MVFFNet --feats_type O_B_P --batch_size 8
 ```
 
 output:
