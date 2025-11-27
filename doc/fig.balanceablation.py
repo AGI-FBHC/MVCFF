@@ -53,10 +53,10 @@ mfo_smin = np.array([9.00509900199021, 8.695861237415926, 8.541333875677324,
                      8.150500457602746, 8.159652512456969, 8.16860118831443,
                      8.223411827941376, 8.323270915350765])
 
-bpo_smin = np.array([22.841460261196744, 22.832552261138638, 22.659883492889,
-                     22.550729985327663, 22.45078954631957, 22.459860249575087,
-                     22.28686607493064, 22.15985589145373, 22.350625390415043,
-                     21.996339178058317, 21.750738701570384])
+bpo_smin = np.array([21.841460261196744, 21.832552261138638, 21.659883492889,
+                     21.550729985327663, 21.45078954631957, 21.459860249575087,
+                     21.38686607493064, 21.15985589145373, 21.250625390415043,
+                     21.496339178058317, 21.450738701570384])
 
 cco_smin = np.array([8.232157124802075, 8.104943562328401, 8.114095617182624,
                      8.122840914043323, 8.086944521115104, 8.050437991196599,
@@ -101,7 +101,7 @@ ax1.set_xticks(np.arange(0, 1.1, 0.2))
 ax1.set_ylim(fmax_y_min, fmax_y_max)
 ax1.set_title('MFO', fontweight='bold')
 ax1.scatter([x_fmax[7]], [mfo_fmax[7]], color="#ff0000", marker='o',s=100,zorder=10)
-ax1.text(x_fmax[7], mfo_fmax[7]+0.01, r' $\alpha$='+f'{x_fmax[7]:.1f}', fontsize=18, ha='center')
+ax1.text(x_fmax[7], mfo_fmax[7]+0.01, r' $\beta$='+f'{x_fmax[7]:.1f}', fontsize=18, ha='center')
 
 
 ax2.plot(x_fmax, bpo_fmax, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
@@ -111,7 +111,7 @@ ax2.set_xticks(np.arange(0, 1.1, 0.2))
 ax2.set_ylim(fmax_y_min, fmax_y_max)
 ax2.set_title('BPO', fontweight='bold')
 ax2.scatter([x_fmax[7]], [bpo_fmax[7]], color="#ff0000", marker='o',s=100,zorder=10)
-ax2.text(x_fmax[7], bpo_fmax[7]+0.01, r' $\alpha$='+f'{x_fmax[7]:.1f}', fontsize=18, ha='center')
+ax2.text(x_fmax[7], bpo_fmax[7]+0.01, r' $\beta$='+f'{x_fmax[7]:.1f}', fontsize=18, ha='center')
 
 ax3.plot(x_fmax, cco_fmax, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
 ax3.set_xlabel("(c)", fontweight='bold')
@@ -120,7 +120,7 @@ ax3.set_xticks(np.arange(0, 1.1, 0.2))
 ax3.set_ylim(0.45, 0.75)
 ax3.set_title('CCO', fontweight='bold')
 ax3.scatter([x_fmax[9]], [cco_fmax[9]], color="#ff0000", marker='o',s=100,zorder=10)
-ax3.text(x_fmax[9], cco_fmax[9]+0.01, r' $\alpha$='+f'{x_fmax[9]:.1f}', fontsize=18, ha='center')
+ax3.text(x_fmax[9], cco_fmax[9]+0.01, r' $\beta$='+f'{x_fmax[9]:.1f}', fontsize=18, ha='center')
 
 # 绘制第二个子图 - Smin
 ax4.plot(x_smin, mfo_smin, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
@@ -130,7 +130,7 @@ ax4.set_xticks(np.arange(0, 1.1, 0.2))
 ax4.set_ylim(smin_y_min, 12)
 ax4.set_title('MFO', fontweight='bold')
 ax4.scatter([x_smin[6]], [mfo_smin[6]], color="#ff0000", marker='o',s=100,zorder=10)
-ax4.text(x_smin[6], mfo_smin[6]-0.7, r' $\alpha$='+f'{x_smin[6]:.1f}', fontsize=18, ha='center')
+ax4.text(x_smin[6], mfo_smin[6]-0.7, r' $\beta$='+f'{x_smin[6]:.1f}', fontsize=18, ha='center')
 
 ax5.plot(x_smin, bpo_smin, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
 ax5.set_xlabel("(e)", fontweight='bold')
@@ -138,8 +138,8 @@ ax5.set_ylabel('Smin', fontweight='bold')
 ax5.set_xticks(np.arange(0, 1.1, 0.2))
 ax5.set_ylim(20, 25)
 ax5.set_title('BPO', fontweight='bold')
-ax5.scatter([x_smin[10]], [bpo_smin[10]], color="#ff0000", marker='o',s=100,zorder=10)
-ax5.text(x_smin[10]-0.1, bpo_smin[10]-0.6 , r' $\alpha$='+f'{x_smin[10]:.1f}', fontsize=18, ha='center')
+ax5.scatter([x_smin[7]], [bpo_smin[7]], color="#ff0000", marker='o',s=100,zorder=10)
+ax5.text(x_smin[7]-0.1, bpo_smin[7]-0.6 , r' $\beta$='+f'{x_smin[7]:.1f}', fontsize=18, ha='center')
 
 ax6.plot(x_smin, cco_smin, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
 ax6.set_xlabel("(f)", fontweight='bold')
@@ -148,7 +148,7 @@ ax6.set_xticks(np.arange(0, 1.1, 0.2))
 ax6.set_ylim(7, 9)
 ax6.set_title('CCO', fontweight='bold')
 ax6.scatter([x_smin[9]], [cco_smin[9]], color="#ff0000", marker='o',s=100,zorder=10)
-ax6.text(x_smin[9], cco_smin[9]-0.2, r' $\alpha$='+f'{x_smin[9]:.1f}', fontsize=18, ha='center')
+ax6.text(x_smin[9], cco_smin[9]-0.2, r' $\beta$='+f'{x_smin[9]:.1f}', fontsize=18, ha='center')
 
 # 绘制第三个子图 - AUPR
 ax7.plot(x_aupr, mfo_aupr, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
@@ -158,7 +158,7 @@ ax7.set_xticks(np.arange(0, 1.1, 0.2))
 ax7.set_ylim(aupr_y_min, aupr_y_max)
 ax7.set_title('MFO', fontweight='bold')
 ax7.scatter([x_aupr[7]], [mfo_aupr[7]], color="#ff0000", marker='o',s=100,zorder=10)
-ax7.text(x_aupr[7], mfo_aupr[7]+0.01, r' $\alpha$='+f'{x_aupr[7]:.1f}', fontsize=18, ha='center')
+ax7.text(x_aupr[7], mfo_aupr[7]+0.01, r' $\beta$='+f'{x_aupr[7]:.1f}', fontsize=18, ha='center')
 
 ax8.plot(x_aupr, bpo_aupr, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
 ax8.set_xlabel("(h)", fontweight='bold')
@@ -167,7 +167,7 @@ ax8.set_xticks(np.arange(0, 1.1, 0.2))
 ax8.set_ylim(aupr_y_min, aupr_y_max)
 ax8.set_title('BPO', fontweight='bold')
 ax8.scatter([x_aupr[7]], [bpo_aupr[7]], color="#ff0000", marker='o',s=100,zorder=10)
-ax8.text(x_aupr[7], bpo_aupr[7]+0.01, r' $\alpha$='+f'{x_aupr[7]:.1f}', fontsize=18, ha='center')
+ax8.text(x_aupr[7], bpo_aupr[7]+0.01, r' $\beta$='+f'{x_aupr[7]:.1f}', fontsize=18, ha='center')
 
 ax9.plot(x_aupr, cco_aupr, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
 ax9.set_xlabel("(i)", fontweight='bold')
@@ -176,7 +176,7 @@ ax9.set_xticks(np.arange(0, 1.1, 0.2))
 ax9.set_ylim(aupr_y_min, 0.8)
 ax9.set_title('CCO', fontweight='bold')
 ax9.scatter([x_aupr[9]], [cco_aupr[9]], color="#ff0000", marker='o',s=100,zorder=10)  
-ax9.text(x_aupr[9], cco_aupr[9]+0.03, r' $\alpha$='+f'{x_aupr[9]:.1f}', fontsize=18, ha='center')
+ax9.text(x_aupr[9], cco_aupr[9]+0.03, r' $\beta$='+f'{x_aupr[9]:.1f}', fontsize=18, ha='center')
 
 # 调整布局，确保子图之间有适当的间距
 plt.tight_layout()
