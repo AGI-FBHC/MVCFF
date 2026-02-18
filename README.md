@@ -43,17 +43,16 @@ Automatic Protein Function Prediction (AFP) plays a pivotal role in elucidating 
 conda create --name mvcff --file ./requirements.txt
 conda activate mvcff
 ```
+## Datasets
 
-## **CAFA3 gold standard dataset**
+
+### **I. CAFA3 gold standard dataset**
 
 <p align="justify">
 The CAFA3 gold standard dataset includes training sequences with experimental annotations and a test benchmark. The training set contains 66,841 experimentally annotated proteins, while the test set comprises 3,328 experimentally annotated proteins.
 To standardize functional descriptions, we adopted the classification framework provided by the Gene Ontology Consortium. For human proteome sequence data, we obtained the Gene Ontology data (ver.2021.02) from the official Gene Ontology website. This version contains three sub-ontology clusters comprising 44,085 GO labels, including 11,153 Molecular Function Ontology (MFO) class labels, 28,748 Biological Process Ontology (BPO) class labels, and 4,184 Cellular Component Ontology (CCO) class labels. Regarding the CAFA3 gold-standard dataset, we utilized the GO data (ver.2016.06) from the CAFA3 Challenge. This version includes three sub-ontology clusters with 44,091 GO labels, containing 10,693 MFO class labels, 29,264 BPO labels, and 4,134 CCO labels.
+`CAFA offical website`: https://biofunctionprediction.org/cafa/.
 </p>
-
-
-### Download CAFA3
-`CAFA offical website`: https://biofunctionprediction.org/cafa/
 
 <p align="justify">
 The solution: The Critical Assessment of protein Function Annotation algorithms (CAFA) is an experiment designed to provide a large-scale assessment of computational methods dedicated to predicting protein function, using a time challenge. Briefly, CAFA organizers provide a large number of protein sequences. The predictors then predict the function of these proteins by associating them with Gene Ontology terms or Human Phenoytpe Ontology terms (Blue “prediction” section of timeline). Following the prediction deadline, we wait for several months. During that time, some proteins whose function were unknown experimentally have received experimental verification (Green “annotation growth” section of timeline). Those proteins constitute the benchmark, against which the methods are tested (Orange “assessment” portion of timeline). You can read about CAFA 3 [here](https://www.biorxiv.org/content/10.1101/653105v1).
@@ -65,6 +64,21 @@ CAFA 3 (2016-2017) download commands as follows:
 wget https://biofunctionprediction.org/cafa-targets/CAFA3_targets.tgz
 wget https://biofunctionprediction.org/cafa-targets/CAFA3_training_data.tgz
 ```
+
+### **II. Human Proteome Sequence Dataset**
+
+<p align="justify">
+Homo sapiens (Homo sapiens sapiens) or modern humans are the only living species of the evolutionary branch of great apes known as hominids. Divergence of early humans from chimpanzees and gorillas is estimated to have occurred between 4 and 8 million years ago. The genus Homo (Homo habilis) appeared in Africa around 2.3 million years ago and shows the first signs of stone tool usage. The exact lineage of Homo species ie: H. habilis/H. ergaster to H. erectus to H. rhodesiensis/H.heidelbergensis to H. sapiens is still hotly disputed. However, continuing evolution and in particular larger brain size and complexity culminates in Homo sapiens. The first anatomically modern humans appear in the fossil record around 200,000 years ago. Modern humans migrated across the globe essentially as hunter-gatherers until around 12,000 years ago when the practice of agriculture and animal domestication enabled large populations to grow leading to the development of civilizations.
+</p>
+
+<p align="justify">
+To standardize functional descriptions, we adopted the classification framework provided by the Gene Ontology Consortium. For human proteome sequence data, we obtained the Gene Ontology data (ver.2021.02) from the official Gene Ontology website (https://geneontology.org/docs/download-ontology/). This version contains three sub-ontology clusters comprising 44,085 GO labels, including 11,153 Molecular Function Ontology (MFO) class labels, 28,748 Biological Process Ontology (BPO) class labels, and 4,184 Cellular Component Ontology (CCO) class labels. 
+</p>
+
+### preprocess
+<p align="justify">
+In this study, we utilized the human proteome sequence dataset and the CAFA3 gold standard dataset. To mitigate the risk of information leakage caused by homologous sequences, this study employed the CD-HIT tool to cluster and deduplicate the human proteome dataset and CAFA3 gold standard dataset, with a sequence identity threshold set at 30%. For the CAFA3 dataset, we used the OrthoFinder tool to identify orthogroups and removed from the training set all proteins that are orthologous to those in the test species, in order to prevent cross-species information leakage. The human proteome dataset was obtained from the SWISS-PROT database, comprising a training set of 17,740 sequences and a test set of 933 sequences. The training set of the CAFA3 gold standard dataset contains 66,841 experimentally annotated proteins, while the test set comprises 3,328 experimentally annotated proteins.
+</p>
 
 ## Train
 
