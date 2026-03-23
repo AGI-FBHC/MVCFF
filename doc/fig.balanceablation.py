@@ -96,7 +96,7 @@ aupr_y_min, aupr_y_max = 0.23, 0.67
 # 绘制第一个子图 - Fmax
 ax1.plot(x_fmax, mfo_fmax, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
 ax1.set_xlabel("(a)", fontweight='bold',fontsize=18)
-ax1.set_ylabel('Fmax', fontweight='bold',fontsize=18)
+ax1.set_ylabel(r'$F_{max}$', fontweight='bold',fontsize=18)
 ax1.set_xticks(np.arange(0, 1.1, 0.2))
 ax1.set_ylim(fmax_y_min, fmax_y_max)
 ax1.set_title('MFO', fontweight='bold')
@@ -106,7 +106,7 @@ ax1.text(x_fmax[7], mfo_fmax[7]+0.01, r' $\beta$='+f'{x_fmax[7]:.1f}', fontsize=
 
 ax2.plot(x_fmax, bpo_fmax, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
 ax2.set_xlabel("(b)", fontweight='bold')
-ax2.set_ylabel('Fmax', fontweight='bold')
+ax2.set_ylabel(r'$F_{max}$', fontweight='bold')
 ax2.set_xticks(np.arange(0, 1.1, 0.2))
 ax2.set_ylim(fmax_y_min, fmax_y_max)
 ax2.set_title('BPO', fontweight='bold')
@@ -115,7 +115,7 @@ ax2.text(x_fmax[7], bpo_fmax[7]+0.01, r' $\beta$='+f'{x_fmax[7]:.1f}', fontsize=
 
 ax3.plot(x_fmax, cco_fmax, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
 ax3.set_xlabel("(c)", fontweight='bold')
-ax3.set_ylabel('Fmax', fontweight='bold')
+ax3.set_ylabel(r'$F_{max}$', fontweight='bold')
 ax3.set_xticks(np.arange(0, 1.1, 0.2))
 ax3.set_ylim(0.45, 0.75)
 ax3.set_title('CCO', fontweight='bold')
@@ -125,7 +125,7 @@ ax3.text(x_fmax[9], cco_fmax[9]+0.01, r' $\beta$='+f'{x_fmax[9]:.1f}', fontsize=
 # 绘制第二个子图 - Smin
 ax4.plot(x_smin, mfo_smin, 'o-', color='#1f77b4', linewidth=1.5, markersize=4, label='MPO')
 ax4.set_xlabel("(d)", fontweight='bold')
-ax4.set_ylabel('Smin', fontweight='bold')
+ax4.set_ylabel(r'$S_{min}$', fontweight='bold')
 ax4.set_xticks(np.arange(0, 1.1, 0.2))
 ax4.set_ylim(smin_y_min, 12)
 ax4.set_title('MFO', fontweight='bold')
@@ -134,7 +134,7 @@ ax4.text(x_smin[6], mfo_smin[6]-0.7, r' $\beta$='+f'{x_smin[6]:.1f}', fontsize=1
 
 ax5.plot(x_smin, bpo_smin, 's-', color='#ff7f0e', linewidth=1.5, markersize=4, label='BPO')
 ax5.set_xlabel("(e)", fontweight='bold')
-ax5.set_ylabel('Smin', fontweight='bold')
+ax5.set_ylabel(r'$S_{min}$', fontweight='bold')
 ax5.set_xticks(np.arange(0, 1.1, 0.2))
 ax5.set_ylim(20, 25)
 ax5.set_title('BPO', fontweight='bold')
@@ -143,7 +143,7 @@ ax5.text(x_smin[7]-0.1, bpo_smin[7]-0.6 , r' $\beta$='+f'{x_smin[7]:.1f}', fonts
 
 ax6.plot(x_smin, cco_smin, '^-', color='#2ca02c', linewidth=1.5, markersize=4, label='CCO')
 ax6.set_xlabel("(f)", fontweight='bold')
-ax6.set_ylabel('Smin', fontweight='bold')
+ax6.set_ylabel(r'$S_{min}$', fontweight='bold')
 ax6.set_xticks(np.arange(0, 1.1, 0.2))
 ax6.set_ylim(7, 9)
 ax6.set_title('CCO', fontweight='bold')

@@ -110,3 +110,15 @@ output:
 prediction.pkl
 result.txt
 ```
+
+**Cite Our Paper**
+
+``` bibtex
+@article{yang2026multiview,
+  title   = {Multi-View Collaborative Feature Fusion for Protein Function Prediction},
+  author  = {Yang, Hailong and Wang, Zhongyu and Shi, Haijun and Ning, Qiao and Deng, Zhaohong and Hu, Shudong and Zhong, Yanqi},
+  journal = {Journal of Chemical Information and Modeling},
+  year    = {2026},
+  doi     = {10.1021/acs.jcim.5c03057}
+}
+```
